@@ -3,7 +3,7 @@ const subscriberModel = require("./models/subscribers");
 const data = require("./data");
 
 // Connect to DATABASE
-const DATABASE_URL = "mongodb://127.0.0.1/subscribers";
+const DATABASE_URL = process.env.MONGO_URL || "mongodb://127.0.0.1/subscribers";
 mongoose.connect(DATABASE_URL);
 const db = mongoose.connection;
 db.on("error", (err) => console.log(err));

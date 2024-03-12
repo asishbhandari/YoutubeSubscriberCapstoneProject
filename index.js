@@ -3,14 +3,14 @@ const app = require("./src/app");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Connect to DATABASE
-const DATABASE_URL = "mongodb://127.0.0.1/subscribers";
+const DATABASE_URL = process.env.MONGO_URL || "mongodb://127.0.0.1/subscribers";
 mongoose.connect(DATABASE_URL);
 const db = mongoose.connection;
 db.on("error", (err) => console.log(err));
