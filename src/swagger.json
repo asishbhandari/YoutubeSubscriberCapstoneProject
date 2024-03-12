@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Subscriber API",
+    "description": "API for managing subscribers",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/subscribers": {
+      "get": {
+        "summary": "Get all subscribers",
+        "description": "Retrieve a list of all subscribers.",
+        "responses": {
+          "200": {
+            "description": "A list of subscribers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subscriber"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No subscribers found."
+          }
+        }
+      }
+    },
+    "/subscribers/names": {
+      "get": {
+        "summary": "Get names and subscribed channels of all subscribers",
+        "description": "Retrieve names and subscribed channels of all subscribers.",
+        "responses": {
+          "200": {
+            "description": "A list of subscribers with names and subscribed channels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "subscribedChannel": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No subscribers found."
+          }
+        }
+      }
+    },
+    "/subscribers/{id}": {
+      "get": {
+        "summary": "Get subscriber by ID",
+        "description": "Retrieve a subscriber by their ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscriber to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscriber found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscriber"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID."
+          },
+          "404": {
+            "description": "Subscriber not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Subscriber": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "subscribedChannel": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
