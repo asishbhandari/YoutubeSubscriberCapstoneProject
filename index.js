@@ -3,7 +3,7 @@ const app = require("./src/app");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());

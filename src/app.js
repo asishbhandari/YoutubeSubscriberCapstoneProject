@@ -3,9 +3,22 @@ const app = express();
 const subscriberModel = require("./models/subscribers");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocumentation = require("./swagger.json");
+const path = require("path");
+// const url = require("url");
 
 // Your code goes here
-
+// configuration for static file path
+// const __filename = url.fileURLToPath(url.URL);
+// const __dirname = path.dirname(__filename);
+app.use("/", express.static(path.join(__dirname, "../public")));
+app.get("/", (req, res, next) => {
+  try {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  } catch (err) {
+    err.statusCode = 400;
+    next(err);
+  }
+});
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
 
 // ****************** Getting All users List
@@ -51,13 +64,10 @@ app.get("/subscribers/names", async (req, res, next) => {
 app.get("/subscribers/:id", async (req, res, next) => {
   const subcriberId = req.params.id;
   try {
-    const subscribersArray = await subscriberModel.findOne({
-      _id: subcriberId,
-    });
-    if (subscribersArray) res.status(200).json(subscribersArray);
-    else res.status(400).json({ message: "ID Does Not Match" });
-    res.end();
+    const subscriberedUser = await subscriberModel.findById(subcriberId);
+    res.status(200).json(subscriberedUser);
   } catch (err) {
+    err.message = "Id does not Match check once and then retry";
     err.statusCode = 404;
     next(err);
   }
@@ -76,7 +86,10 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   res
     .status(err.statusCode || 500)
-    .json(err.message || { message: "Internal Server Error" });
+    .json({
+      status: err.statusCode || 500,
+      message: err.message || "Internal Server Error",
+    });
 });
 
 module.exports = app;
