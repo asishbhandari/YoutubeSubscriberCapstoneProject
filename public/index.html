@@ -40,7 +40,7 @@
             <a href="/subscribers/names" target="_blank">/Subscribers/names</a>
           </li>
           <li style="padding: 2px">
-            <a href="#" id="subscriberIdLink" onclick="hadleclick()"
+            <a href="" id="subscriberIdLink" onclick="hadleclick()"
               >/Subscribers/:id
             </a>
             <input
@@ -57,9 +57,9 @@
     <script>
       const input = document.getElementById("inputId");
       const SubscriberLink = document.getElementById("subscriberIdLink");
-
+      let id = "";
       input.addEventListener("input", (e) => {
-        const id = e.target.value;
+        id = e.target.value;
         if (id !== "") {
           SubscriberLink.href = `/subscribers/${id}`;
           SubscriberLink.target = "_blank";
@@ -67,12 +67,15 @@
       });
       const hadleclick = () => {
         input.value = "";
+        console.log(SubscriberLink.href);
       };
 
       input.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           SubscriberLink.click();
+          SubscriberLink.href = "";
+          console.log(SubscriberLink.href);
         }
       });
     </script>
