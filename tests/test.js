@@ -25,7 +25,7 @@ describe("Youtube Scbscribers API testing", () => {
 
   // Test 3
   it("Should return information about specific subscriber by its id", async () => {
-    const id = "65eeb016c78f598a6d0fbd8e";
+    const id = "65f06b0b36c52ae0098eb034";
     const res = await chai.request(app).get(`/subscribers/${id}`);
     expect(res).to.have.status(200);
     expect(res.body).to.be.an("object");
@@ -35,6 +35,6 @@ describe("Youtube Scbscribers API testing", () => {
   it("should return 404 for any route that is not found", async () => {
     const res = await chai.request(app).get("/anyOtherRoute");
     expect(res).to.have.status(404);
-    expect(res).to.have.property("body", "Route Not Found");
+    expect(res.body).to.have.property("message", "Route Not Found");
   });
 });
